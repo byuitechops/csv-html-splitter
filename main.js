@@ -24,11 +24,27 @@ function download(files,fileName){
   });
 }
 
+function breakHtml(quiz){
+  quiz = deepen(quiz)
+  var sections = quiz.get('passagetext').split(/(<h\d>)/)
+  for(var i = 1; i < sections.length; ++i){ 
+    sections.splice(i,2,sections[i]+sections[i+1]) 
+  }
+  sections.forEach(html => {
+    var temp = document.createElement('div')
+    temp.innerHTML = html
+    var header = temp.querySelector('h1,h2,h3,h4,h5,h6')
+    header = (header ? header.innerText : 'head').replace(/\W/g,'').toLowerCase()
+    quiz.set('passagesections'+header,html)
+  })
+  return quiz.flatten()
+}
+
 function onFiles(files){
-  window.file = files[0].content.map(deepen)
-  console.log(window.file)
-  // console.log(Object.keys(files[0].content[0]))
-  // download(files,'files.zip')
+  files.forEach(file => {
+    file.content = file.content.map(breakHtml)
+  })
+  download(files,'files.zip')
 }
 
 /* READY SET GO! */
