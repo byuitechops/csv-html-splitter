@@ -25,7 +25,9 @@ function download(files,fileName){
 }
 
 function onFiles(files){
-  console.log(Object.keys(files[0].content[0]))
+  window.file = files[0].content.map(deepen)
+  console.log(window.file)
+  // console.log(Object.keys(files[0].content[0]))
   // download(files,'files.zip')
 }
 
