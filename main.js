@@ -43,6 +43,7 @@ function breakHtml(quiz){
 function onFiles(files){
   files.forEach(file => {
     file.content = file.content.map(breakHtml)
+    window.file = file.content
   })
   download(files,'files.zip')
 }
