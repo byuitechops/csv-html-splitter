@@ -37,13 +37,13 @@ function breakHtml(quiz){
     header = (header ? header.innerText : 'head').replace(/\W/g,'').toLowerCase()
     quiz.set('passagesections'+header,html)
   })
+  window.quiz = quiz
   return quiz.flatten()
 }
 
 function onFiles(files){
   files.forEach(file => {
     file.content = file.content.map(breakHtml)
-    window.file = file.content
   })
   download(files,'files.zip')
 }
